@@ -8,13 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
-const user_entity_1 = require("./users/user.entity");
+const scylla_module_1 = require("./scylla/scylla.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -22,16 +21,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true }),
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'postgres',
-                host: process.env.PG_HOST || 'localhost',
-                port: parseInt(process.env.PG_PORT ?? '5433', 10) || 5433,
-                username: process.env.PG_USER || 'postgres',
-                password: process.env.PG_PASS || 'production17',
-                database: process.env.PG_DB || 'chski',
-                entities: [user_entity_1.User],
-                synchronize: true,
-            }),
+            scylla_module_1.ScyllaModule,
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
         ],
